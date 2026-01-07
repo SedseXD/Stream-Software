@@ -1,21 +1,6 @@
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        // This is the Android Plugin (Version 8.2.2)
-        classpath 'com.android.tools.build:gradle:8.2.2'
-    }
+plugins {
+    id 'com.android.application' version '8.2.2'
 }
-
-// This allows FFmpeg to be found
-repositories {
-    google()
-    mavenCentral()
-}
-
-apply plugin: 'com.android.application'
 
 android {
     namespace 'com.streamer'
@@ -27,12 +12,13 @@ android {
         targetSdk 34
         versionCode 1
         versionName "1.0"
-        
+
+        // Keeps the APK small and compatible
         ndk {
             abiFilters "arm64-v8a", "armeabi-v7a"
         }
     }
-    
+
     packagingOptions {
         pickFirst 'lib/x86/libc++_shared.so'
         pickFirst 'lib/x86_64/libc++_shared.so'
@@ -42,7 +28,9 @@ android {
 }
 
 dependencies {
-    implementation 'com.arthenica:ffmpeg-kit-full:5.1'
+    // SWITCHED TO GPL VERSION (Includes x264 for YouTube)
+    implementation 'com.arthenica:ffmpeg-kit-full-gpl:5.1'
+    
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.11.0'
 }
