@@ -1,0 +1,42 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.2.2'
+    }
+}
+
+apply plugin: 'com.android.application'
+
+android {
+    namespace 'com.streamer'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.streamer.loop"
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+        // FFmpeg is large, we need to allow specific architectures to keep APK smaller
+        ndk {
+            abiFilters "arm64-v8a", "armeabi-v7a"
+        }
+    }
+
+    packagingOptions {
+        pickFirst 'lib/x86/libc++_shared.so'
+        pickFirst 'lib/x86_64/libc++_shared.so'
+        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+        pickFirst 'lib/arm64-v8a/libc++_shared.so'
+    }
+}
+
+dependencies {
+    // The Magic Engine: FFmpeg Kit (Full version handles network streaming)
+    implementation 'com.arthenica:ffmpeg-kit-full:6.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.11.0'
+}
